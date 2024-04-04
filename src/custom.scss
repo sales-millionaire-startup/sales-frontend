@@ -1,1 +1,17 @@
+$body-bg: #FFF7FC;
 @import '~bootstrap/scss/bootstrap.scss';
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins";
+$theme-colors: (
+    "primary": #5755FE,
+    "secondary": #8B93FF,
+    "light": #FFF7FC,
+    "info": #FF71CD
+);
+.nav-page {
+    cursor: pointer;
+}
+.nav-page:hover {
+    background-color: wheat;
+}
