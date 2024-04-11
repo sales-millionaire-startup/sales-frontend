@@ -1,14 +1,27 @@
-import { Col, Row } from "reactstrap"
+import { Row, Col } from "reactstrap"
 import React from "react"
+import TopbarNavigationItem from "./TopbarNavigationItem"
+import { useAtomValue } from "jotai"
+import { textsAtom } from "../states/test"
+import LanguagePicker from "./LanguagePicker"
 
 const Topbar = () => {
-    return (
-        <Row className='m-0 p-0 bg-primary text-white d-flex justify-content-end'>
-          <Col className=''>
-            user
-          </Col>
+  const texts = useAtomValue(textsAtom);
+  return (<div className="row m-0 p-0">
+      <Col className="col-1 m-0 p-0">
+        <Row className='m-0 vh-5 bg-dark text-white d-flex'>
+          <TopbarNavigationItem label={texts.geni} url="/admin/products" customClass="col-12"/>
         </Row>
-    )
+      </Col>
+      <Col className="col-11 m-0 p-0">
+      <Row className='m-0 vh-5 bg-dark text-white d-flex justify-content-end'>
+        <LanguagePicker />
+        <TopbarNavigationItem label={texts.register} url="/register"/>
+        <TopbarNavigationItem label={texts.login} url="/login"/>
+      </Row>
+      </Col>
+  </div>
+  )
 }
 
 export default Topbar

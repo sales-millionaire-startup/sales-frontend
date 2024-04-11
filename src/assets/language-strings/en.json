@@ -1,3 +1,9 @@
 {
-    "page": "გვერდი"
+    "page": "Page",
+    "register": "Register",
+    "login": "Log in",
+    "pageDoesNotExists": "Page can not be found",
+    "en": "English",
+    "ge": "Georgian",
+    "geni": "Geni"
 }
