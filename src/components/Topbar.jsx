@@ -2,7 +2,7 @@ import { Row, Col } from "reactstrap"
 import React from "react"
 import TopbarNavigationItem from "./TopbarNavigationItem"
 import { useAtomValue } from "jotai"
-import { textsAtom } from "../states/test"
+import { textsAtom } from "../states/atoms"
 import LanguagePicker from "./LanguagePicker"
 
 const Topbar = () => {

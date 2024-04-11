@@ -5,4 +5,7 @@ const texts = {
     en: stringsEn,
     ge: stringsGe
 }
+
 export const textsAtom = atom(texts[localStorage.language || "en"])
+
+export const languageAtom = atom(localStorage.language || "en")
