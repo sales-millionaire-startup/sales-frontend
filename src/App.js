@@ -8,10 +8,11 @@ import SecondComponent from './pages/test/SecondPage.jsx';
 // import Sidebar from './components/Sidebar.jsx';
 import NoPage from './pages/no-page/NoPage.jsx';
 import { backendAxiosClient } from './utility/apiClients.js';
+import AdminProducts from './pages/admin/AdminProducts.jsx';
 
 function App() {
   backendAxiosClient.get("/api/user").then(res => {
-    console.log(res.data)
+    // console.log(res?.data)
   })
   return (<Row className='col-12 m-0 p-0 vh-100 bg-light'>
       <BrowserRouter>
@@ -24,6 +25,7 @@ function App() {
                   <Route path="/" element={<Outlet/>}>
                     <Route path='' element={<FirstComponent />} />
                     <Route path='home' element={<FirstComponent />} />
+                    <Route path='/admin/products' element={<AdminProducts />} />
                     <Route path='gagi' element={<SecondComponent />} />
                     <Route path="*" element={<NoPage />} />
                   </Route>
