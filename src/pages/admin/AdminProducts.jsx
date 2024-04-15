@@ -1,7 +1,7 @@
 import React from "react"
 import { useAtomValue } from "jotai"
 import { textsAtom } from "../../states/atoms"
-import { backendAxiosClient } from "../../utility/apiClients"
+// import { backendAxiosClient } from "../../utility/apiClients"
 
 const AdminProducts = () => {
     // backendAxiosClient.get("category").then(res => console.log(res.data))
