@@ -2,7 +2,7 @@ import { Row, Col } from "reactstrap"
 import React from "react"
 import TopbarNavigationItem from "./TopbarNavigationItem"
 import { useAtomValue } from "jotai"
-import { textsAtom } from "../states/atoms"
+import { textsAtom } from "../states/jotai"
 import LanguagePicker from "./LanguagePicker"
 
 const Topbar = () => {
@@ -15,9 +15,12 @@ const Topbar = () => {
       </Col>
       <Col className="col-11 m-0 p-0">
       <Row className='m-0 vh-5 bg-dark text-white d-flex justify-content-end'>
+        <div className="d-flex w-fit-content m-0 p-0">
+
         <LanguagePicker />
         <TopbarNavigationItem label={texts.register} url="/register"/>
         <TopbarNavigationItem label={texts.login} url="/login"/>
+        </div>
       </Row>
       </Col>
   </div>

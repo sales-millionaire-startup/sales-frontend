@@ -1,7 +1,7 @@
 import { Col, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap"
 import React from "react"
 import { useAtom } from "jotai"
-import { textsAtom, languageAtom } from "../states/atoms"
+import { textsAtom, languageAtom } from "../states/jotai"
 import stringsEn from '../assets/language-strings/en.json'
 import stringsGe from '../assets/language-strings/ge.json'
 
@@ -22,7 +22,7 @@ const LanguagePicker = () => {
 
     const languages = ["en", "ge"]
 
-    return (<Col className="col-1 d-flex justify-content-center align-items-center">
+    return (<Col className="d-flex justify-content-center align-items-center mr-2 ml-2">
         <UncontrolledDropdown className="d-flex justify-content-center">
             <DropdownToggle color='white' className='dropdown-toggle text-white'>
                 {texts[language]}

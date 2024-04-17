@@ -1,6 +1,6 @@
 import React from "react"
 import { useAtomValue } from "jotai"
-import { textsAtom } from "../../states/atoms"
+import { textsAtom } from "../../states/jotai"
 
 const NoPage = () => {
     const texts = useAtomValue(textsAtom);

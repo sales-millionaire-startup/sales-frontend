@@ -1,16 +1,15 @@
-import { Col } from "reactstrap"
 import React from "react"
 import { useNavigate } from "react-router"
 
 const TopbarNavigationItem = (props) => {
-    const {label, url, customClass} = props
+    const {label, url} = props
     const navigate = useNavigate()
     return (
-        <Col className={`col-1 d-flex justify-content-center align-items-center nav-page ${customClass}`}>
-            <span className="cursor-pointer" onClick={() => navigate(url)}>
+        <div className={`d-flex justify-content-center align-items-center nav-page`}>
+            <span className="cursor-pointer m-2" onClick={() => navigate(url)}>
                 {label}
             </span>
-        </Col>
+        </div>
     )
 }
 

@@ -12,7 +12,9 @@ import AdminProducts from './pages/admin/AdminProducts.jsx';
 
 function App() {
   backendAxiosClient.get("/api/user").then(res => {
-    // console.log(res?.data)
+    console.log(res?.data)
+  }).catch(res => {
+    console.log(res?.data)
   })
   return (<Row className='col-12 m-0 p-0 vh-100 bg-light'>
       <BrowserRouter>
