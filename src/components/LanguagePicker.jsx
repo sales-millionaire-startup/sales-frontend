@@ -29,7 +29,7 @@ const LanguagePicker = () => {
             </DropdownToggle>
             <DropdownMenu className='' tag='ul' style={{top: "auto"}}>
                 {languages.map(elem => {
-                    return <DropdownItem className='w-100' >
+                    return <DropdownItem className='w-100' key={elem}>
                         <span className='col-12' onClick={() => {
                             switchLanguage(elem)
                         }}>{texts[elem]}</span>

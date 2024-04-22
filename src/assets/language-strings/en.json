@@ -6,5 +6,11 @@
     "en": "English",
     "ge": "Georgian",
     "geni": "Geni",
-    "addCategory": "Add a new category"
+    "addCategory": "Add a new category",
+    "category": "Category",
+    "product": "Product",
+    "add" : "Add",
+    "deleteWarningText": "Do you want to delete",
+    "yes": "Yes",
+    "no": "No"
 }

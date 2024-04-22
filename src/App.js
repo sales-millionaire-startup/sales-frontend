@@ -7,18 +7,17 @@ import FirstComponent from './pages/page/FirstPage.jsx';
 import SecondComponent from './pages/test/SecondPage.jsx';
 // import Sidebar from './components/Sidebar.jsx';
 import NoPage from './pages/no-page/NoPage.jsx';
-import { backendAxiosClient } from './utility/apiClients.js';
 import AdminProducts from './pages/admin/AdminProducts.jsx';
+import { loaderAtom } from './states/jotai.js';
+import { useAtomValue } from "jotai";
+import WebsiteLoader from './components/WebiteLoader.jsx';
 
 function App() {
-  backendAxiosClient.get("/api/user").then(res => {
-    console.log(res?.data)
-  }).catch(res => {
-    console.log(res?.data)
-  })
+  const loader = useAtomValue(loaderAtom)
   return (<Row className='col-12 m-0 p-0 vh-100 bg-light'>
       <BrowserRouter>
       {/* <Sidebar /> */}
+      {loader && <WebsiteLoader />}
       <Col className="col-12 m-0 p-0">
         <Topbar />
         <Row className='m-0 p-0 vh-95'>

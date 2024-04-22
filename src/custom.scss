@@ -28,3 +28,17 @@ $theme-colors: (
 .w-fit-content {
     width: fit-content;
 }
+.spinloader {
+    z-index: 9999999;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    margin: 0;
+    height: 100vh;
+    position: absolute;
+    display: flex !important;
+    align-items: center;
+    flex-direction: column;
+    background-color: #fffffff1;
+    opacity: 0.5;
+  }
