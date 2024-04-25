@@ -10,7 +10,7 @@ const Topbar = () => {
   return (<div className="row m-0 p-0">
       <Col className="col-1 m-0 p-0">
         <Row className='m-0 vh-5 bg-dark text-white d-flex'>
-          <TopbarNavigationItem label={texts.geni} url="/admin/products" customClass="col-12"/>
+          <TopbarNavigationItem label={texts.companyName} url="/admin/products" customClass="col-12"/>
         </Row>
       </Col>
       <Col className="col-11 m-0 p-0">

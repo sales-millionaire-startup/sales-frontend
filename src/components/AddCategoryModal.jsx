@@ -11,6 +11,7 @@ const AddCategoryModal = () => {
     const texts = useAtomValue(textsAtom)
     const setLoader = useSetAtom(loaderAtom)
     const [categoryData, setCategoryData] = useState({})
+    const language = localStorage.getItem("language") || "ge"
     const addCategory = (e) => {
         e.preventDefault()
         const parentMostCategoryId = currentCategory.parentMostCategoryId || currentCategory.id
@@ -52,26 +53,12 @@ const AddCategoryModal = () => {
                     {texts.en}
                     </Label>
                     <Input
-                    id="name_en"
-                    name="name_en"
+                    id={`name_${language}`}
+                    name={`name_${language}`}
                     placeholder={texts.category}
-                    onChange={e => updateCategoryData(e.target.value, "name_en")}
+                    onChange={e => updateCategoryData(e.target.value, `name_${language}`)}
                     />
                 </FormGroup>
-                <FormGroup>
-                    <Label for="examplePassword">
-                    {texts.ge}
-                    </Label>
-                    <Input
-                    id="name_ge"
-                    name="name_ge"
-                    placeholder={texts.category}
-                    onChange={e => updateCategoryData(e.target.value, "name_ge")}
-                    />
-                </FormGroup>
-                {/* <Button>
-                    Submit
-                </Button> */}
                 <Row className='justify-content-center'>
                     <Button className="w-fit-content p-2" color="dark"  onClick={addCategory}>{texts.add}</Button>
                 </Row>

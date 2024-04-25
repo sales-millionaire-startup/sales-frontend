@@ -1,30 +1,27 @@
 import React from "react"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
-import { categoriesAtom, currentCategoryAtom, loaderAtom, textsAtom, deleteCategoryModalAtom } from "../states/jotai"
+import { categoriesAtom, currentCategoryAtom, loaderAtom, textsAtom, deleteProductModalAtom, currentProductAtom } from "../states/jotai"
 import { Button, Col, Modal, ModalBody, ModalHeader, Row } from 'reactstrap'
 import { backendAxiosClient } from "../utility/apiClients";
 
-const DeleteCategoryModal = () => {
-    const [isOpen, setIsOpen] = useAtom(deleteCategoryModalAtom)
+const DeleteProductModal = () => {
+    const [isOpen, setIsOpen] = useAtom(deleteProductModalAtom)
     const setCategories = useSetAtom(categoriesAtom)
     const currentCategory = useAtomValue(currentCategoryAtom)
+    const currentProduct = useAtomValue(currentProductAtom)
     const texts = useAtomValue(textsAtom)
     const setLoader = useSetAtom(loaderAtom)
     const language = localStorage.getItem("language") || "ge"
-    const deleteCategory = (e) => {
+    const deleteProduct = (e) => {
         e.preventDefault()
         const parentMostCategoryId = currentCategory.parentMostCategoryId || currentCategory.id
         setLoader(true)
-        backendAxiosClient.delete(`api/category/${currentCategory.id}`).then(res => {
+        backendAxiosClient.delete(`api/product/${currentProduct.id}`).then(res => {
             if (res.data) {
                 setCategories(state => {
                     const tmp = [...state]
                     const index = tmp.findIndex(elem => elem.id === parentMostCategoryId)
-                    if (!currentCategory.parentCategoryId) {
-                        tmp.splice(index, 1)
-                    } else {
-                        tmp[index] = res.data
-                    }
+                    tmp[index] = res.data
                     return tmp
                 })
             }
@@ -43,10 +40,10 @@ const DeleteCategoryModal = () => {
         <ModalBody className="d-flex justify-content-center">
             <Col>
                 <Row className="justify-content-center">
-                    <h4 className="d-flex justify-content-center">{texts.deleteWarningText} {currentCategory[`name_${language}`] || currentCategory.name_ge}?</h4>
+                    <h4 className="d-flex justify-content-center">{texts.deleteWarningText} {currentProduct[`name_${language}`] || currentProduct.name_ge}?</h4>
                 </Row>
                 <Row className='justify-content-center'>
-                    <Button className="w-fit-content p-2 m-2" color="dark"  onClick={deleteCategory}>{texts.yes}</Button>
+                    <Button className="w-fit-content p-2 m-2" color="dark"  onClick={deleteProduct}>{texts.yes}</Button>
                     <Button className="w-fit-content p-2 m-2" color="dark"  onClick={() => setIsOpen(false)}>{texts.no}</Button>
                 </Row>
             </Col>
@@ -55,4 +52,4 @@ const DeleteCategoryModal = () => {
     );
 };
 
-export default DeleteCategoryModal
+export default DeleteProductModal

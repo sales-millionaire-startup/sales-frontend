@@ -1,20 +1,21 @@
 import React from "react"
-import Product from "./ProductAdmin";
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
-import { categoriesAtom, addCategoryModalAtom, currentCategoryAtom, loaderAtom, openedCategoriesAtom, textsAtom, editCategoryModalAtom, deleteCategoryModalAtom } from "../states/jotai"
+import { categoriesAtom, addCategoryModalAtom, currentCategoryAtom, loaderAtom, openedCategoriesAtom, textsAtom, editCategoryModalAtom, deleteCategoryModalAtom, addProductModalAtom } from "../states/jotai"
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import { backendAxiosClient } from "../utility/apiClients";
 import { MdAdd, MdDeleteOutline, MdOutlineEdit, MdSettings } from "react-icons/md";
+import ProductAdmin from "./ProductAdmin";
 
 const CategoryAdmin = ({ category }) => {
     const [openedCategories, setOpenedCategories] = useAtom(openedCategoriesAtom)
     const texts = useAtomValue(textsAtom)
     const setCurrentCategory = useSetAtom(currentCategoryAtom)
     const setIsAddCategoryModalOpen = useSetAtom(addCategoryModalAtom)
+    const setIsAddProductModalOpen = useSetAtom(addProductModalAtom)
     const setIsEditCategoryModalOpen = useSetAtom(editCategoryModalAtom)
     const setIsDeleteCategoryModalOpen = useSetAtom(deleteCategoryModalAtom)
     const setCategories = useSetAtom(categoriesAtom)
-    const language = localStorage.getItem("language") || "en"
+    const language = localStorage.getItem("language") || "ge"
     const setLoader = useSetAtom(loaderAtom)
     const handleCategoryClick = (id) => {
         if (openedCategories.includes(id)) {
@@ -41,7 +42,7 @@ const CategoryAdmin = ({ category }) => {
     return (
       <div className="category" key={category.id}>
         <div className="nav-page d-flex w-fit-content m-0 p-0 align-items-center">
-            <h5 className="cursor-pointer m-0 p-0" onClick={() => handleCategoryClick(category.id)}>{category[`name_${language}`]}</h5>
+            <h5 className="cursor-pointer m-0 p-0" onClick={() => handleCategoryClick(category.id)}>{category[`name_${language}`] || category.name_ge}</h5>
             <h5 className="cursor-pointer m-0 p-0">
             <UncontrolledDropdown className="m-0 p-0">
                 <DropdownToggle className='' style={{backgroundColor: "inherit", border: "none", color: "black"}} onClick={() => setCurrentCategory(category)}>
@@ -65,7 +66,7 @@ const CategoryAdmin = ({ category }) => {
                     </DropdownItem>
                     <DropdownItem className='w-100' >
                         <span className='col-12' onClick={() => {
-                            // switchLanguage(elem)
+                            setIsAddProductModalOpen(true)
                         }}><MdAdd />{texts.product}</span>
                     </DropdownItem>
                 </DropdownMenu>
@@ -78,7 +79,7 @@ const CategoryAdmin = ({ category }) => {
                     <CategoryAdmin category={childCategory} />
                 </li>
             ))}
-            {openedCategories?.includes(category.id) && category.products?.map(product => <Product product={product} />)}
+            {openedCategories?.includes(category.id) && category.products?.map(product => <ProductAdmin product={product} />)}
         </ul>
       </div>
     );

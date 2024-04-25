@@ -5,12 +5,17 @@
     "pageDoesNotExists": "გვერდი არ მოიძებნა",
     "en": "ინგლისური",
     "ge": "ქართული",
-    "geni": "გენი",
+    "companyName": "ბითუმი",
     "addCategory": "კატეგორიის დამატება",
     "category": "კატეგორია",
     "product": "პროდუქტი",
     "add" : "დამატება",
-    "deleteWarningText": "გინდა წაშალო",
+    "deleteWarningText": "გსურს წაშალო",
     "yes": "კი",
-    "no": "არა"
+    "no": "არა",
+    "save": "შენახვა",
+    "addSpecification": "მონაცემის დამატება",
+    "unit": "ერთეული",
+    "specification": "მონაცემის სახელი",
+    "values": "მნიშვნელობები"
 }

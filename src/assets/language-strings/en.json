@@ -5,12 +5,17 @@
     "pageDoesNotExists": "Page can not be found",
     "en": "English",
     "ge": "Georgian",
-    "geni": "Geni",
+    "companyName": "B2ME",
     "addCategory": "Add a new category",
     "category": "Category",
     "product": "Product",
     "add" : "Add",
     "deleteWarningText": "Do you want to delete",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "save": "Save",
+    "addSpecification": "Add specification",
+    "unit": "Unit",
+    "specification": "Specification",
+    "values": "Values"
 }

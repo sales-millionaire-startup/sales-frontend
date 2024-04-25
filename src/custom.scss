@@ -42,3 +42,7 @@ $theme-colors: (
     background-color: #fffffff1;
     opacity: 0.5;
   }
+  .modal-w-75 {
+    width: 75vw !important;
+    max-width: 75vw !important;
+  }

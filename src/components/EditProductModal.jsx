@@ -1,39 +1,42 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
-import { addProductModalAtom, categoriesAtom, currentCategoryAtom, loaderAtom, textsAtom, unitsAtom } from "../states/jotai"
+import { categoriesAtom, currentProductAtom, editProductModalAtom, loaderAtom, textsAtom, unitsAtom } from "../states/jotai"
 import { Button, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, FormGroup, Input, InputGroup, InputGroupText, Label, Modal, ModalBody, ModalHeader, Row } from 'reactstrap'
 import { backendAxiosClient } from "../utility/apiClients";
 import { MdDeleteOutline } from "react-icons/md";
 
-const AddProductModal = () => {
-    const [isOpen, setIsOpen] = useAtom(addProductModalAtom)
+const EditProductModal = () => {
+    const [isOpen, setIsOpen] = useAtom(editProductModalAtom)
     const setCategories = useSetAtom(categoriesAtom)
-    const currentCategory = useAtomValue(currentCategoryAtom)
+    const currentProduct = useAtomValue(currentProductAtom)
     const units = useAtomValue(unitsAtom)
     const texts = useAtomValue(textsAtom)
     const setLoader = useSetAtom(loaderAtom)
-    const [productData, setProductData] = useState({ specifications: []})
+    const [productData, setProductData] = useState({ ...currentProduct })
     const language = localStorage.getItem("language") || "ge"
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [lastActiveSpecIndex, setLastActiveSpecIndex] = useState();
+    useEffect(() => {
+        setProductData({ ...currentProduct })
+        console.log()
+    }, [currentProduct])
   
     const toggle = () => setDropdownOpen((prevState) => !prevState);
     const addProduct = (e) => {
         e.preventDefault()
-        const payload = {...productData, categoryId: currentCategory?.id}
+        const payload = {...productData}
         setLoader(true)
-        backendAxiosClient.post("api/product", payload).then(res => {
+        backendAxiosClient.put(`api/product/${currentProduct.id}`, payload).then(res => {
             if (res.data) {
                 setCategories(state => {
                     const tmp = [...state]
-                    const parentMostCategoryId = currentCategory.parentMostCategoryId || currentCategory.id
+                    const parentMostCategoryId = res.data.parentMostCategoryId || res.data.id
                     const index = tmp.findIndex(elem => elem.id === parentMostCategoryId)
                     tmp[index] = res.data
                     return tmp
                 })
             }
         }).finally(() => setLoader(false))
-        setProductData({ specifications: []})
         setIsOpen(false)
     }
     
@@ -68,6 +71,7 @@ const AddProductModal = () => {
                     id={`name_${language}`}
                     name={`name_${language}`}
                     placeholder={texts.product}
+                    defaultValue={currentProduct[`name_${language}`] || currentProduct.name_ge}
                     onChange={e => updateProductData(e.target.value, `name_${language}`)}
                     />
                 </FormGroup>
@@ -79,12 +83,13 @@ const AddProductModal = () => {
                                     id={`name_${language}`}
                                     name={`name_${language}`}
                                     placeholder={texts.specification}
+                                    defaultValue={elem[`name_${language}`] || elem.name_ge}
                                     onChange={e => updateProductSpecification(e.target.value, `name_${language}`, index)}
                                 />
                             </Col>
                             <Col className="col-6">
                             <InputGroup>
-                                {elem[`values_${language}`].map((currSpecValue, specIndex) => {
+                                {elem[`values_${language}`]?.map((currSpecValue, specIndex) => {
                                     return <InputGroupText>
                                     {currSpecValue}
                                     <MdDeleteOutline className="cursor-pointer" onClick={() => updateProductSpecification(elem[`values_${language}`].filter((currSpec, currIndex) => currIndex !== specIndex), `values_${language}`, index)}/></InputGroupText>
@@ -132,4 +137,4 @@ const AddProductModal = () => {
     );
 };
 
-export default AddProductModal
+export default EditProductModal

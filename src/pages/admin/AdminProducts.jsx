@@ -1,22 +1,31 @@
 import React, { useEffect } from "react"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
-import { textsAtom, categoriesAtom, addCategoryModalAtom, currentCategoryAtom } from "../../states/jotai"
+import { textsAtom, categoriesAtom, addCategoryModalAtom, currentCategoryAtom, unitsAtom } from "../../states/jotai"
 import CategoryAdmin from "../../components/CategoryAdmin"
 import AddCategoryModal from "../../components/AddCategoryModal"
 import { Col } from "reactstrap"
 import { backendAxiosClient } from "../../utility/apiClients"
 import EditCategoryModal from "../../components/EditCategoryModal"
 import DeleteCategoryModal from "../../components/DeleteCategoryModal"
+import AddProductModal from "../../components/AddProductModal"
+import DeleteProductModal from "../../components/DeleteProductModal"
+import EditProductModal from "../../components/EditProductModal"
 
 const AdminProducts = () => {
     const [categories, setCategories] = useAtom(categoriesAtom)
+    const setUnits = useSetAtom(unitsAtom)
     useEffect(() => {
         backendAxiosClient.get("api/category").then(res => {
             if (res.data) {
                 setCategories(res.data)
             }
         })
-    }, [setCategories])
+        backendAxiosClient.get("api/unit-element").then(res => {
+            if (res.data) {
+                setUnits(res.data)
+            }
+        })
+    }, [setCategories, setUnits])
     const texts = useAtomValue(textsAtom);
     const setIsAddCategoryModalOpen = useSetAtom(addCategoryModalAtom)
     const setCurrentCategory = useSetAtom(currentCategoryAtom)
@@ -31,12 +40,15 @@ const AdminProducts = () => {
                     <h5 className="cursor-pointer m-0 p-0" onClick={() => {
                         setCurrentCategory({})
                         setIsAddCategoryModalOpen(true)
-                    }}>კატეგორიის დამატება</h5>
+                    }}>{texts.addCategory}</h5>
                 </div>
             </div>
             <AddCategoryModal />
             <EditCategoryModal />
             <DeleteCategoryModal />
+            <AddProductModal />
+            <EditProductModal />
+            <DeleteProductModal />
         </Col>
     )
 }
