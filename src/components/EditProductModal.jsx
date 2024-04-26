@@ -77,7 +77,7 @@ const EditProductModal = () => {
                 </FormGroup>
                 {productData?.specifications?.map((elem, index) => {
                     return (
-                        <Row key={index} onClick={() => setLastActiveSpecIndex(index)} className="mt-2 mb-2">
+                        <Row key={`spec-${index}`} onClick={() => setLastActiveSpecIndex(index)} className="mt-2 mb-2">
                             <Col className="col-4">
                                 <Input
                                     id={`name_${language}`}
@@ -90,7 +90,7 @@ const EditProductModal = () => {
                             <Col className="col-6">
                             <InputGroup>
                                 {elem[`values_${language}`]?.map((currSpecValue, specIndex) => {
-                                    return <InputGroupText>
+                                    return <InputGroupText key={`spec-val-${specIndex}`}>
                                     {currSpecValue}
                                     <MdDeleteOutline className="cursor-pointer" onClick={() => updateProductSpecification(elem[`values_${language}`].filter((currSpec, currIndex) => currIndex !== specIndex), `values_${language}`, index)}/></InputGroupText>
                                 })}
@@ -112,7 +112,7 @@ const EditProductModal = () => {
                                     <DropdownToggle caret>{elem.unitElement ? elem.unitElement[`name_${language}`] || elem.unitElement.name_ge : texts.unit}</DropdownToggle>
                                     <DropdownMenu>
                                         {units?.map(unitElement => {
-                                            return <DropdownItem onClick={() => {
+                                            return <DropdownItem key={unitElement.id} onClick={() => {
                                                 updateProductSpecification(unitElement.id, "unitElementId", index)
                                                 updateProductSpecification(unitElement, "unitElement", index)
                                             }}>{unitElement[`name_${language}`] || unitElement.name_ge}</DropdownItem>

@@ -41,11 +41,11 @@ const CategoryAdmin = ({ category }) => {
     }
     return (
       <div className="category" key={category.id}>
-        <div className="nav-page d-flex w-fit-content m-0 p-0 align-items-center">
+        <div className="nav-page d-flex w-fit-content m-0 p-0 align-items-center" onClick={() => setCurrentCategory(category)}>
             <h5 className="cursor-pointer m-0 p-0" onClick={() => handleCategoryClick(category.id)}>{category[`name_${language}`] || category.name_ge}</h5>
             <h5 className="cursor-pointer m-0 p-0">
             <UncontrolledDropdown className="m-0 p-0">
-                <DropdownToggle className='' style={{backgroundColor: "inherit", border: "none", color: "black"}} onClick={() => setCurrentCategory(category)}>
+                <DropdownToggle className='' style={{backgroundColor: "inherit", border: "none", color: "black"}}>
                     <MdSettings />
                 </DropdownToggle>
                 <DropdownMenu className='' tag='ul' style={{top: "auto"}}>
@@ -79,7 +79,7 @@ const CategoryAdmin = ({ category }) => {
                     <CategoryAdmin category={childCategory} />
                 </li>
             ))}
-            {openedCategories?.includes(category.id) && category.products?.map(product => <ProductAdmin product={product} />)}
+            {openedCategories?.includes(category.id) && category.products?.map(product => <ProductAdmin product={product} key={product?.id}/>)}
         </ul>
       </div>
     );

@@ -11,12 +11,12 @@ const ProductAdmin = ({ product }) => {
     const setIsDeleteProductModalOpen = useSetAtom(deleteProductModalAtom)
     const language = localStorage.getItem("language") || "ge"
     return (
-      <div className="product" key={product.id}>
+      <div className="product" key={product.id} onClick={() => setCurrentProduct(product)}>
         <div className="nav-page d-flex w-fit-content m-0 p-0 align-items-center">
             <h6 className="cursor-pointer m-0 p-0">{product[`name_${language}`] || product.name_ge}</h6>
             <h6 className="cursor-pointer m-0 p-0">
             <UncontrolledDropdown className="m-0 p-0">
-                <DropdownToggle className='' style={{backgroundColor: "inherit", border: "none", color: "black"}} onClick={() => setCurrentProduct(product)}>
+                <DropdownToggle className='' style={{backgroundColor: "inherit", border: "none", color: "black"}}>
                     <MdSettings />
                 </DropdownToggle>
                 <DropdownMenu className='' tag='ul' style={{top: "auto"}}>
