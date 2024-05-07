@@ -1,26 +1,25 @@
 import React, { useState } from "react"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
-import { categoriesAtom, editCategoryModalAtom, currentCategoryAtom, loaderAtom, textsAtom } from "../states/jotai"
+import { unitsAtom, editUnitModalAtom, currentUnitAtom, loaderAtom, textsAtom } from "../states/jotai"
 import { Button, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader, Row } from 'reactstrap'
 import { backendAxiosClient } from "../utility/apiClients";
 
-const EditCategoryModal = () => {
-    const [isOpen, setIsOpen] = useAtom(editCategoryModalAtom)
-    const setCategories = useSetAtom(categoriesAtom)
-    const currentCategory = useAtomValue(currentCategoryAtom)
+const EditUnitModal = () => {
+    const [isOpen, setIsOpen] = useAtom(editUnitModalAtom)
+    const setUnits = useSetAtom(unitsAtom)
+    const currentUnit = useAtomValue(currentUnitAtom)
     const texts = useAtomValue(textsAtom)
     const setLoader = useSetAtom(loaderAtom)
-    const [categoryData, setCategoryData] = useState({...currentCategory})
+    const [unitData, setUnitData] = useState({...currentUnit})
     const language = localStorage.getItem("language") || "ge"
-    const editCategory = (e) => {
+    const editUnit = (e) => {
         e.preventDefault()
-        const parentMostCategoryId = currentCategory.parentMostCategoryId || currentCategory.id
         setLoader(true)
-        backendAxiosClient.put(`api/category/${currentCategory.id}`, categoryData).then(res => {
+        backendAxiosClient.put(`api/unit-element/${currentUnit.id}`, unitData).then(res => {
             if (res.data) {
-                setCategories(state => {
+                setUnits(state => {
                     const tmp = [...state]
-                    const index = tmp.findIndex(elem => elem.id === parentMostCategoryId)
+                    const index = tmp.findIndex(elem => elem.id === currentUnit.id)
                     tmp[index] = res.data
                     return tmp
                 })
@@ -28,8 +27,8 @@ const EditCategoryModal = () => {
         }).finally(() => setLoader(false))
         setIsOpen(false)
     }
-    const updateCategoryData = (value, item) => {
-        setCategoryData(state => { return {...state, [item]: value}})
+    const updateUnitData = (value, item) => {
+        setUnitData(state => { return {...state, [item]: value}})
     }
 
     return (
@@ -42,21 +41,21 @@ const EditCategoryModal = () => {
         <ModalHeader toggle={() => setIsOpen(!isOpen)}/>  
         <ModalBody className="d-flex justify-content-center">
             <Col>
-            <Form onSubmit={editCategory}>
+            <Form onSubmit={editUnit}>
                 <FormGroup>
                     <Label>
-                    {texts.category}
+                    {texts.unit}
                     </Label>
                     <Input
                     id={`name_${language}`}
                     name={`name_${language}`}
-                    placeholder={texts.category}
-                    defaultValue={currentCategory[`name_${language}`] || currentCategory.name_ge}
-                    onChange={e => updateCategoryData(e.target.value, `name_${language}`)}
+                    placeholder={texts.unit}
+                    defaultValue={currentUnit[`name_${language}`] || currentUnit.name_ge}
+                    onChange={e => updateUnitData(e.target.value, `name_${language}`)}
                     />
                 </FormGroup>
                 <Row className='justify-content-center'>
-                    <Button className="w-fit-content p-2" color="dark"  onClick={editCategory}>{texts.save}</Button>
+                    <Button className="w-fit-content p-2" color="dark"  onClick={editUnit}>{texts.save}</Button>
                 </Row>
                 </Form>
                 <br />
@@ -66,4 +65,4 @@ const EditCategoryModal = () => {
     );
 };
 
-export default EditCategoryModal
+export default EditUnitModal

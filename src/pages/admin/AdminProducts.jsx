@@ -31,16 +31,16 @@ const AdminProducts = () => {
     const setCurrentCategory = useSetAtom(currentCategoryAtom)
     return (
         <Col className='w-100 h-100 m-0 p-0'> 
-            <div>{texts.products}</div>
+            <h4>{texts.products}</h4>
             {categories?.map(elem => {
                return <CategoryAdmin category={elem} key={elem.id}/>
             })}
             <div className="category mt-1">
                 <div className="nav-page d-flex w-fit-content m-0 p-0 align-items-center">
-                    <h5 className="cursor-pointer m-0 p-0" onClick={() => {
+                    <h6 className="cursor-pointer m-0 p-0" onClick={() => {
                         setCurrentCategory({})
                         setIsAddCategoryModalOpen(true)
-                    }}>{texts.addCategory}</h5>
+                    }}>{texts.addCategory}</h6>
                 </div>
             </div>
             <AddCategoryModal />

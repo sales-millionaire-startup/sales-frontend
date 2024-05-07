@@ -64,8 +64,8 @@ const EditProductModal = () => {
             <Col>
             <Form onSubmit={addProduct}>
                 <FormGroup>
-                    <Label for="examplePassword">
-                    {texts.ge}
+                    <Label>
+                    {texts.product}
                     </Label>
                     <Input
                     id={`name_${language}`}

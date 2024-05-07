@@ -49,8 +49,8 @@ const AddCategoryModal = () => {
             <Col>
             <Form onSubmit={addCategory}>
                 <FormGroup>
-                    <Label for="exampleEmail">
-                    {texts.en}
+                    <Label>
+                    {texts.category}
                     </Label>
                     <Input
                     id={`name_${language}`}

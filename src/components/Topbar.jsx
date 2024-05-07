@@ -18,6 +18,8 @@ const Topbar = () => {
         <div className="d-flex w-fit-content m-0 p-0">
 
         <LanguagePicker />
+        <TopbarNavigationItem label={texts.units} url="/admin/units"/>
+        <TopbarNavigationItem label={texts.products} url="/admin/products"/>
         <TopbarNavigationItem label={texts.register} url="/register"/>
         <TopbarNavigationItem label={texts.login} url="/login"/>
         </div>

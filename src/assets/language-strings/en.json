@@ -17,5 +17,8 @@
     "addSpecification": "Add specification",
     "unit": "Unit",
     "specification": "Specification",
-    "values": "Values"
+    "values": "Values",
+    "addUnit": "Add unit",
+    "units": "Units",
+    "products": "Products"
 }
