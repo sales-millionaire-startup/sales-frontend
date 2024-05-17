@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
 import { addProductModalAtom, categoriesAtom, currentCategoryAtom, loaderAtom, textsAtom, unitsAtom } from "../states/jotai"
-import { Button, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, FormGroup, Input, InputGroup, InputGroupText, Label, Modal, ModalBody, ModalHeader, Row } from 'reactstrap'
+import { Button, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, FormGroup, Input, Modal, ModalBody, ModalHeader, Row } from 'reactstrap'
 import { backendAxiosClient } from "../utility/apiClients";
 import { MdDeleteOutline } from "react-icons/md";
 
@@ -48,6 +48,14 @@ const AddProductModal = () => {
             return tmp
         })
     }
+    
+    const removeProductSpecification = (index) => {
+        setProductData(state => { 
+            const tmp = {...state}
+            tmp.specifications.splice(index, 1)
+            return tmp
+        })
+    }
 
     return (
     <Modal 
@@ -60,21 +68,28 @@ const AddProductModal = () => {
         <ModalBody className="d-flex justify-content-center">
             <Col>
             <Form onSubmit={addProduct}>
-                <FormGroup>
-                    <Label>
-                    {texts.product}
-                    </Label>
-                    <Input
-                    id={`name_${language}`}
-                    name={`name_${language}`}
-                    placeholder={texts.product}
-                    onChange={e => updateProductData(e.target.value, `name_${language}`)}
-                    />
-                </FormGroup>
+                <Row>
+                    <FormGroup className="col-6">
+                        <Input
+                            id={`name_${language}`}
+                            name={`name_${language}`}
+                            placeholder={texts.product}
+                            onChange={e => updateProductData(e.target.value, `name_${language}`)}
+                        />
+                    </FormGroup>
+                    <FormGroup className="col-6">
+                        <Input
+                            id="exampleFile"
+                            name="file"
+                            type="file"
+                            onChange={e => updateProductData(e.target.files[0], "file")}
+                        />
+                    </FormGroup>
+                </Row>
                 {productData?.specifications?.map((elem, index) => {
                     return (
                         <Row key={index} onClick={() => setLastActiveSpecIndex(index)} className="mt-2 mb-2">
-                            <Col className="col-4">
+                            <Col className="col-6">
                                 <Input
                                     id={`name_${language}`}
                                     name={`name_${language}`}
@@ -82,7 +97,7 @@ const AddProductModal = () => {
                                     onChange={e => updateProductSpecification(e.target.value, `name_${language}`, index)}
                                 />
                             </Col>
-                            <Col className="col-6">
+                            {/* <Col className="col-6">
                             <InputGroup>
                                 {elem[`values_${language}`].map((currSpecValue, specIndex) => {
                                     return <InputGroupText>
@@ -101,8 +116,8 @@ const AddProductModal = () => {
                                     }}
                                 />
                             </InputGroup>
-                            </Col>
-                            <Col className="col-2">
+                            </Col> */}
+                            <div className="w-fit-content">
                                 <Dropdown isOpen={dropdownOpen && lastActiveSpecIndex === index} toggle={toggle} color="light">
                                     <DropdownToggle caret>{elem.unitElement ? elem.unitElement[`name_${language}`] || elem.unitElement.name_ge : texts.unit}</DropdownToggle>
                                     <DropdownMenu>
@@ -114,6 +129,9 @@ const AddProductModal = () => {
                                         })}
                                     </DropdownMenu>
                                 </Dropdown>
+                            </div>
+                            <Col>
+                                <MdDeleteOutline size={30} className="cursor-pointer mt-1" onClick={() => removeProductSpecification(index)}/>
                             </Col>
                         </Row>
                     )
