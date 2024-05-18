@@ -8,3 +8,12 @@ export const backendAxiosClient = axios.create({
         'content-Type': 'application/json'
     }
 })
+
+export const backendFileClient = axios.create({
+    baseURL: process.env.REACT_APP_BACKEND_API,
+    // baseURL: `http://localhost:5000/`,
+    headers: {
+        Accept: 'application/json',
+        'content-Type': 'multipart/form-data'
+    }
+})

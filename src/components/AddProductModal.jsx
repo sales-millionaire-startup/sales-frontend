@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
 import { addProductModalAtom, categoriesAtom, currentCategoryAtom, loaderAtom, textsAtom, unitsAtom } from "../states/jotai"
 import { Button, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, FormGroup, Input, Modal, ModalBody, ModalHeader, Row } from 'reactstrap'
-import { backendAxiosClient } from "../utility/apiClients";
+import { backendFileClient } from "../utility/apiClients";
 import { MdDeleteOutline } from "react-icons/md";
 
 const AddProductModal = () => {
@@ -21,8 +21,12 @@ const AddProductModal = () => {
     const addProduct = (e) => {
         e.preventDefault()
         const payload = {...productData, categoryId: currentCategory?.id}
+        delete payload.file 
+        const formDataPayload = new FormData();
+        formDataPayload.append('file', productData.file);
+        formDataPayload.append('data', JSON.stringify(payload))
         setLoader(true)
-        backendAxiosClient.post("api/product", payload).then(res => {
+        backendFileClient.post("api/product", formDataPayload).then(res => {
             if (res.data) {
                 setCategories(state => {
                     const tmp = [...state]

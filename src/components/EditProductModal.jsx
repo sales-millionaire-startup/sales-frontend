@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
 import { categoriesAtom, currentProductAtom, editProductModalAtom, loaderAtom, textsAtom, unitsAtom } from "../states/jotai"
 import { Button, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, FormGroup, Input, Modal, ModalBody, ModalHeader, Row } from 'reactstrap'
-import { backendAxiosClient } from "../utility/apiClients";
+import { backendFileClient } from "../utility/apiClients";
 import { MdDeleteOutline } from "react-icons/md";
 
 const EditProductModal = () => {
@@ -18,15 +18,18 @@ const EditProductModal = () => {
     const [lastActiveSpecIndex, setLastActiveSpecIndex] = useState();
     useEffect(() => {
         setProductData({ ...currentProduct })
-        console.log()
     }, [currentProduct])
   
     const toggle = () => setDropdownOpen((prevState) => !prevState);
     const addProduct = (e) => {
         e.preventDefault()
         const payload = {...productData}
+        delete payload.file 
+        const formDataPayload = new FormData();
+        formDataPayload.append('file', productData.file);
+        formDataPayload.append('data', JSON.stringify(payload))
         setLoader(true)
-        backendAxiosClient.put(`api/product/${currentProduct.id}`, payload).then(res => {
+        backendFileClient.put(`api/product/${currentProduct.id}`, formDataPayload).then(res => {
             if (res.data) {
                 setCategories(state => {
                     const tmp = [...state]
@@ -41,7 +44,13 @@ const EditProductModal = () => {
     }
     
     const updateProductData = (value, item) => {
-        setProductData(state => { return {...state, [item]: value}})
+        setProductData(state => { 
+            const tmp = {...state}
+            if (item === "file") {
+                tmp.imageName = item.name
+            }
+            return {...tmp, [item]: value}
+        })
     }
     
     const updateProductSpecification = (value, item, index) => {
@@ -76,7 +85,7 @@ const EditProductModal = () => {
                         <Input
                             id={`name_${language}`}
                             name={`name_${language}`}
-                            placeholder={texts.product}
+                            placeholder={productData[`name_${language}`]}
                             onChange={e => updateProductData(e.target.value, `name_${language}`)}
                         />
                     </FormGroup>
@@ -89,6 +98,11 @@ const EditProductModal = () => {
                         />
                     </FormGroup>
                 </Row>
+                {productData?.imageUrl &&
+                <Row className="d-flex justify-content-center m-5">
+                    <img src={productData.imageUrl} style={{width: "200px"}} alt="Product"/>
+                </Row>
+                }
                 {productData?.specifications?.map((elem, index) => {
                     return (
                         <Row key={`spec-${index}`} onClick={() => setLastActiveSpecIndex(index)} className="mt-2 mb-2">
