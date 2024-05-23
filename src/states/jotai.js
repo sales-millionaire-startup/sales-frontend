@@ -49,3 +49,5 @@ export const deleteUnitModalAtom = atom(false)
 //global loader atom
 
 export const loaderAtom = atom(false)
+
+export const cartAtom = atom([])

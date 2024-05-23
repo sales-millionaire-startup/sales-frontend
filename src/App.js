@@ -12,6 +12,7 @@ import { loaderAtom } from './states/jotai.js';
 import { useAtomValue } from "jotai";
 import WebsiteLoader from './components/WebiteLoader.jsx';
 import AdminUnits from './pages/admin/AdminUnits.jsx';
+import ClientProducts from './pages/client/ClientProducts.jsx';
 
 function App() {
   const loader = useAtomValue(loaderAtom)
@@ -28,6 +29,7 @@ function App() {
                     <Route path='' element={<FirstComponent />} />
                     <Route path='home' element={<FirstComponent />} />
                     <Route path='/admin/products' element={<AdminProducts />} />
+                    <Route path='/products' element={<ClientProducts />} />
                     <Route path='/admin/units' element={<AdminUnits />} />
                     <Route path='gagi' element={<SecondComponent />} />
                     <Route path="*" element={<NoPage />} />
