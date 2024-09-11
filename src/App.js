@@ -2,7 +2,7 @@ import './App.css';
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
 import Topbar from './components/Topbar';
-import React from 'react';
+import React, { useEffect } from 'react';
 import FirstComponent from './pages/page/FirstPage.jsx';
 import SecondComponent from './pages/test/SecondPage.jsx';
 // import Sidebar from './components/Sidebar.jsx';
@@ -13,9 +13,33 @@ import { useAtomValue } from "jotai";
 import WebsiteLoader from './components/WebiteLoader.jsx';
 import AdminUnits from './pages/admin/AdminUnits.jsx';
 import ClientProducts from './pages/client/ClientProducts.jsx';
+import RegisterPage from './pages/register/Register.jsx';
+import LoginPage from './pages/login/Login.jsx';
+import { useCookies } from 'react-cookie';
+import { backendAxiosClient, backendFileClient } from './utility/apiClients.js';
 
 function App() {
   const loader = useAtomValue(loaderAtom)
+  const [cookies] = useCookies();
+  useEffect(() => {
+    const token = cookies['token']
+    if (token) {
+      backendAxiosClient.interceptors.request.use(
+        config => {
+          config.headers.Authorization = `Bearer ${token}`
+          return config
+        },
+        error => Promise.reject(error)
+      )
+      backendFileClient.interceptors.request.use(
+        config => {
+          config.headers.Authorization = `Bearer ${token}`
+          return config
+        },
+        error => Promise.reject(error)
+      )
+    }
+  }, [cookies])
   return (<Row className='col-12 m-0 p-0 vh-100 bg-light'>
       <BrowserRouter>
       {/* <Sidebar /> */}
@@ -31,6 +55,8 @@ function App() {
                     <Route path='/admin/products' element={<AdminProducts />} />
                     <Route path='/products' element={<ClientProducts />} />
                     <Route path='/admin/units' element={<AdminUnits />} />
+                    <Route path='register' element={<RegisterPage />} />
+                    <Route path='login' element={<LoginPage />} />
                     <Route path='gagi' element={<SecondComponent />} />
                     <Route path="*" element={<NoPage />} />
                   </Route>

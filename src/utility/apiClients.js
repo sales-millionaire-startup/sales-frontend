@@ -17,3 +17,33 @@ export const backendFileClient = axios.create({
         'content-Type': 'multipart/form-data'
     }
 })
+
+backendAxiosClient.interceptors.response.use((response) => {
+    return response
+}, (error) => {
+    if (error.response && error.response.status === 401) {
+        window.open(`/login`, "_self")
+    }
+    if (error.response && (error.response.status > 400 && error.response.status < 500)) {
+        // window.open(`${authUrl}/logout`, "_self")
+        console.timeLog("API ERROR:", error)
+        // alert("API Error occured, check logs")
+    }
+    return Promise.reject(error)
+}
+)
+
+backendFileClient.interceptors.response.use((response) => {
+    return response
+}, (error) => {
+    if (error.response && error.response.status === 401) {
+        window.open(`/login`, "_self")
+    }
+    if (error.response && (error.response.status > 400 && error.response.status < 500)) {
+        // window.open(`${authUrl}/logout`, "_self")
+        console.timeLog("API ERROR:", error)
+        // alert("API Error occured, check logs")
+    }
+    return Promise.reject(error)
+}
+)

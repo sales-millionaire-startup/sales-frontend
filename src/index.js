@@ -5,11 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import './custom.scss';
+import { CookiesProvider } from 'react-cookie';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   //<React.StrictMode>
-    <App />
+    <CookiesProvider defaultSetOptions={{ path: '/' }}>
+      <App />
+    </CookiesProvider>
   //</React.StrictMode>
 );
 

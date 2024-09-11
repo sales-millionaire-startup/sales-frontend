@@ -21,5 +21,11 @@
     "addUnit": "Add unit",
     "units": "Units",
     "products": "Products",
-    "addToCart": "Add to cart"
+    "addToCart": "Add to cart",
+    "email": "email",
+    "password": "password",
+    "repeatPassword": "Confirm password",
+    "companyId": "Company ID",
+    "name": "name",
+    "registeredSuccessfully": "You registered successfully!"
 }
