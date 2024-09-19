@@ -20,7 +20,7 @@ const AddProductToCartModal = () => {
         setLoader(true)
         console.log(payload)
         if (user.cart) {
-            backendAxiosClient.post(`api/${user.cart.id}/add`, payload).then(res => {
+            backendAxiosClient.post(`api/cart/${user.cart.id}`, payload).then(res => {
                 if (res.data) {
                     setCart([...cart, {...res.data}])
                 }
