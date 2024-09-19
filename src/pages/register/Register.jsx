@@ -1,6 +1,6 @@
 import { useAtomValue } from "jotai"
 import React, { useEffect, useState } from "react"
-import { Button, Col, Form, FormGroup, Input, Label, Modal, ModalBody, Row } from 'reactstrap'
+import { Button, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, FormGroup, Input, Label, Modal, ModalBody, Row } from 'reactstrap'
 import { textsAtom } from "../../states/jotai"
 import { backendAxiosClient } from "../../utility/apiClients"
 import { useNavigate } from "react-router-dom"
@@ -13,6 +13,9 @@ const RegisterPage = () => {
     const [success, setSuccess] = useState(false)
     const navigate = useNavigate()
     const [cookies, setCookie] = useCookies(['name']);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+  
+    const toggle = () => setDropdownOpen((prevState) => !prevState);
         
     const updateData = (value, item) => {
         setData(state => { return {...state, [item]: value}})
@@ -21,6 +24,8 @@ const RegisterPage = () => {
     const handleValidation = () => {
         return true
     }
+
+    const roles = [{label: texts.buyer, value: "BUYER"}, {label: texts.seller, value: "SELLER"}]
 
     const handleRegister = () => {
         if (handleValidation) {
@@ -66,13 +71,31 @@ const RegisterPage = () => {
                                 onChange={e => updateData(e.target.value, `name`)}
                                 className="mt-3"
                             />
-                            <Input
-                                id={`companyId`}
-                                name={`companyId`}
-                                placeholder={texts.companyId}
-                                onChange={e => updateData(e.target.value, `companyId`)}
-                                className="mt-3"
-                            />
+                            <Row>
+                                <Col>
+                                    <Input
+                                        id={`companyId`}
+                                        name={`companyId`}
+                                        placeholder={texts.companyId}
+                                        onChange={e => updateData(e.target.value, `companyId`)}
+                                        className="mt-3"
+                                    />
+                                </Col>
+                                <Col>
+                                    <div className="w-fit mt-3">
+                                        <Dropdown isOpen={dropdownOpen} toggle={toggle} color="light">
+                                            <DropdownToggle className="" caret>{data.role ? roles.find(elem => elem.value === data.role).label : texts.role}</DropdownToggle>
+                                            <DropdownMenu>
+                                                {roles?.map(role => {
+                                                    return <DropdownItem onClick={() => {
+                                                        updateData(role.value, `role`)
+                                                    }}>{role.label}</DropdownItem>
+                                                })}
+                                            </DropdownMenu>
+                                        </Dropdown>
+                                    </div>
+                                </Col>
+                            </Row>
                             <Input
                                 id={`password`}
                                 name={`password`}

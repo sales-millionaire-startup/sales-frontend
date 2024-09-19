@@ -27,5 +27,8 @@
     "repeatPassword": "Confirm password",
     "companyId": "Company ID",
     "name": "name",
-    "registeredSuccessfully": "You registered successfully!"
+    "registeredSuccessfully": "You registered successfully!",
+    "seller": "Seller",
+    "buyer": "Buyer",
+    "role": "Role"
 }

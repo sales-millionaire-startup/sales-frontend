@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
-import { addProductModalAtom, cartAtom, currentProductAtom, loaderAtom, textsAtom } from "../states/jotai"
+import { addProductModalAtom, cartAtom, currentProductAtom, loaderAtom, textsAtom, userAtom } from "../states/jotai"
 import { Button, Col, Input, Modal, ModalBody, ModalHeader, Row } from 'reactstrap'
 import { backendAxiosClient } from "../utility/apiClients";
 
@@ -9,20 +9,23 @@ const AddProductToCartModal = () => {
     const [cart, setCart] = useAtom(cartAtom)
     const currentProduct = useAtomValue(currentProductAtom)
     const texts = useAtomValue(textsAtom)
+    const user = useAtomValue(userAtom)
     const setLoader = useSetAtom(loaderAtom)
     const language = localStorage.getItem("language") || "ge"
     const [specificationValues, setSpecificationValues] = useState({})
   
     const addProduct = (e) => {
         e.preventDefault()
-        const payload = {productId: currentProduct.id, specifications: specificationValues}
+        const payload = {productId: currentProduct.id, specifications: Object.keys(specificationValues).map(key => { return { specificationId: key, value: specificationValues[key] }})}
         setLoader(true)
         console.log(payload)
-        backendAxiosClient.post("api/cart/add", payload).then(res => {
-            if (res.data) {
-                setCart([...cart, {...res.data}])
-            }
-        }).finally(() => setLoader(false))
+        if (user.cart) {
+            backendAxiosClient.post(`api/${user.cart.id}/add`, payload).then(res => {
+                if (res.data) {
+                    setCart([...cart, {...res.data}])
+                }
+            }).finally(() => setLoader(false))
+        }
         setIsOpen(false)
     }
     

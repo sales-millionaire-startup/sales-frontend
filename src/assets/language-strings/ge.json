@@ -25,7 +25,10 @@
     "email": "მეილი",
     "password": "პაროლი",
     "repeatPassword": "გაიმეორეთ პაროლი",
-    "companyId": "კომპანიის საიდენტიფიკაციო კოდი",
+    "companyId": "კომპანიის ID",
     "name": "სახელი",
-    "registeredSuccessfully": "თქვენ დარეგისტრირდით წარმატებით!"
+    "registeredSuccessfully": "თქვენ დარეგისტრირდით წარმატებით!",
+    "seller": "გამყიდველი",
+    "buyer": "შემსყიდველი",
+    "role": "როლი"
 }

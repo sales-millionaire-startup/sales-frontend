@@ -10,6 +10,8 @@ export const textsAtom = atom(texts[localStorage.language || "ge"])
 
 export const languageAtom = atom(localStorage.language || "ge")
 
+export const userAtom = atom({})
+
 //category atoms
 
 export const categoriesAtom = atom([])

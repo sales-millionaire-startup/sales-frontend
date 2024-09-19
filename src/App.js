@@ -8,8 +8,8 @@ import SecondComponent from './pages/test/SecondPage.jsx';
 // import Sidebar from './components/Sidebar.jsx';
 import NoPage from './pages/no-page/NoPage.jsx';
 import AdminProducts from './pages/admin/AdminProducts.jsx';
-import { loaderAtom } from './states/jotai.js';
-import { useAtomValue } from "jotai";
+import { loaderAtom, userAtom } from './states/jotai.js';
+import { useAtomValue, useSetAtom } from "jotai";
 import WebsiteLoader from './components/WebiteLoader.jsx';
 import AdminUnits from './pages/admin/AdminUnits.jsx';
 import ClientProducts from './pages/client/ClientProducts.jsx';
@@ -21,6 +21,7 @@ import { backendAxiosClient, backendFileClient } from './utility/apiClients.js';
 function App() {
   const loader = useAtomValue(loaderAtom)
   const [cookies] = useCookies();
+  const setUser = useSetAtom(userAtom)
   useEffect(() => {
     const token = cookies['token']
     if (token) {
@@ -38,8 +39,14 @@ function App() {
         },
         error => Promise.reject(error)
       )
+      backendAxiosClient.get("api/user").then(res => {
+          if (res.data) {
+            setUser(res.data)
+          }
+        }
+      )
     }
-  }, [cookies])
+  }, [cookies, setUser])
   return (<Row className='col-12 m-0 p-0 vh-100 bg-light'>
       <BrowserRouter>
       {/* <Sidebar /> */}
@@ -53,6 +60,7 @@ function App() {
                     <Route path='' element={<FirstComponent />} />
                     <Route path='home' element={<FirstComponent />} />
                     <Route path='/admin/products' element={<AdminProducts />} />
+                    <Route path='/client/products' element={<ClientProducts />} />
                     <Route path='/products' element={<ClientProducts />} />
                     <Route path='/admin/units' element={<AdminUnits />} />
                     <Route path='register' element={<RegisterPage />} />
