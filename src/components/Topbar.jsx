@@ -14,7 +14,7 @@ const Topbar = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (!cookies.token && (!location.pathname.includes("login") && !location.pathname.includes("register"))) {
-      navigate("/login")
+      //navigate("/login")
     }
   }, [cookies, location, navigate])
   return (<div className="row m-0 p-0">
