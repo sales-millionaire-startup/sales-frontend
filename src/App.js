@@ -17,6 +17,7 @@ import RegisterPage from './pages/register/Register.jsx';
 import LoginPage from './pages/login/Login.jsx';
 import { useCookies } from 'react-cookie';
 import { backendAxiosClient, backendFileClient } from './utility/apiClients.js';
+import Cart from './pages/client/Cart.jsx';
 
 function App() {
   const loader = useAtomValue(loaderAtom)
@@ -62,6 +63,7 @@ function App() {
                     <Route path='/admin/products' element={<AdminProducts />} />
                     <Route path='/client/products' element={<ClientProducts />} />
                     <Route path='/products' element={<ClientProducts />} />
+                    <Route path='/cart' element={<Cart />} />
                     <Route path='/admin/units' element={<AdminUnits />} />
                     <Route path='register' element={<RegisterPage />} />
                     <Route path='login' element={<LoginPage />} />

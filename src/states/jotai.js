@@ -6,7 +6,7 @@ const texts = {
     ge: stringsGe
 }
 
-export const textsAtom = atom(texts[localStorage.language || "ge"])
+export const textsAtom = atom(texts[texts[localStorage.language] ? localStorage.language : "ge"])
 
 export const languageAtom = atom(localStorage.language || "ge")
 

@@ -32,6 +32,7 @@ const Topbar = () => {
         <TopbarNavigationItem label={texts.products} url="/admin/products"/>
         <TopbarNavigationItem label={texts.register} url="/register"/>
         <TopbarNavigationItem label={texts.login} url="/login"/>
+        <TopbarNavigationItem label={texts.cart} url="/cart"/>
         </div>
       </Row>
       </Col>

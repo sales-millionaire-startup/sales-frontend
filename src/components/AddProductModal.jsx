@@ -4,6 +4,8 @@ import { addProductModalAtom, categoriesAtom, currentCategoryAtom, loaderAtom, t
 import { Button, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, FormGroup, Input, Modal, ModalBody, ModalHeader, Row } from 'reactstrap'
 import { backendFileClient } from "../utility/apiClients";
 import { MdDeleteOutline } from "react-icons/md";
+import { v4 as uuidv4 } from 'uuid';
+import Tree from 'rc-tree'
 
 const AddProductModal = () => {
     const [isOpen, setIsOpen] = useAtom(addProductModalAtom)
@@ -61,6 +63,49 @@ const AddProductModal = () => {
         })
     }
 
+    const onDrop = (e) => {
+      const tmp = [...productData.specifications]
+      const index = e.dragNode.index
+      const newIndex = e.dropPosition >= 0 ? (e.dropPosition >= tmp.length ? tmp.length - 1 : e.dropPosition) : 0
+      const elemCopy = {...tmp[index]}
+      tmp.splice(index, 1)
+      tmp.splice(newIndex, 0, elemCopy)
+      updateProductData(tmp, "specifications")
+    }
+
+    const specificationRender = (props) => {
+        const {elem, index} = props;
+        return (
+            <Row key={`spec-${elem.id}`} onClick={() => setLastActiveSpecIndex(index)} className="mt-2 mb-2">
+                <Col className="col-6">
+                    <Input
+                        id={`name_${language}`}
+                        name={`name_${language}`}
+                        placeholder={texts.specification}
+                        value={productData.specifications[index][`name_${language}`]}
+                        onChange={e => updateProductSpecification(e.target.value, `name_${language}`, index)}
+                    />
+                </Col>
+                <div className="w-fit-content">
+                    <Dropdown isOpen={dropdownOpen && lastActiveSpecIndex === index} toggle={toggle} color="light">
+                        <DropdownToggle caret>{elem.unitElement ? elem.unitElement[`name_${language}`] || elem.unitElement.name_ge : texts.unit}</DropdownToggle>
+                        <DropdownMenu>
+                            {units?.map(unitElement => {
+                                return <DropdownItem key={`unit-${unitElement.id}`} onClick={() => {
+                                    updateProductSpecification(unitElement.id, "unitElementId", index)
+                                    updateProductSpecification(unitElement, "unitElement", index)
+                                }}>{unitElement[`name_${language}`] || unitElement.name_ge}</DropdownItem>
+                            })}
+                        </DropdownMenu>
+                    </Dropdown>
+                </div>
+                <Col>
+                    <MdDeleteOutline size={30} className="cursor-pointer mt-1" onClick={() => removeProductSpecification(index)}/>
+                </Col>
+            </Row>
+        )
+    }
+
     return (
     <Modal 
         isOpen={isOpen}
@@ -90,58 +135,16 @@ const AddProductModal = () => {
                         />
                     </FormGroup>
                 </Row>
-                {productData?.specifications?.map((elem, index) => {
-                    return (
-                        <Row key={index} onClick={() => setLastActiveSpecIndex(index)} className="mt-2 mb-2">
-                            <Col className="col-6">
-                                <Input
-                                    id={`name_${language}`}
-                                    name={`name_${language}`}
-                                    placeholder={texts.specification}
-                                    onChange={e => updateProductSpecification(e.target.value, `name_${language}`, index)}
-                                />
-                            </Col>
-                            {/* <Col className="col-6">
-                            <InputGroup>
-                                {elem[`values_${language}`].map((currSpecValue, specIndex) => {
-                                    return <InputGroupText>
-                                    {currSpecValue}
-                                    <MdDeleteOutline className="cursor-pointer" onClick={() => updateProductSpecification(elem[`values_${language}`].filter((currSpec, currIndex) => currIndex !== specIndex), `values_${language}`, index)}/></InputGroupText>
-                                })}
-                                <Input
-                                    id={`name_${language}`}
-                                    name={`name_${language}`}
-                                    placeholder={texts.values}
-                                    onKeyDown={event => {
-                                        if (event.key === 'Enter') {
-                                            updateProductSpecification([...elem[`values_${language}`], event.target.value], `values_${language}`, index)
-                                            event.target.value = ""
-                                        }
-                                    }}
-                                />
-                            </InputGroup>
-                            </Col> */}
-                            <div className="w-fit-content">
-                                <Dropdown isOpen={dropdownOpen && lastActiveSpecIndex === index} toggle={toggle} color="light">
-                                    <DropdownToggle caret>{elem.unitElement ? elem.unitElement[`name_${language}`] || elem.unitElement.name_ge : texts.unit}</DropdownToggle>
-                                    <DropdownMenu>
-                                        {units?.map(unitElement => {
-                                            return <DropdownItem onClick={() => {
-                                                updateProductSpecification(unitElement.id, "unitElementId", index)
-                                                updateProductSpecification(unitElement, "unitElement", index)
-                                            }}>{unitElement[`name_${language}`] || unitElement.name_ge}</DropdownItem>
-                                        })}
-                                    </DropdownMenu>
-                                </Dropdown>
-                            </div>
-                            <Col>
-                                <MdDeleteOutline size={30} className="cursor-pointer mt-1" onClick={() => removeProductSpecification(index)}/>
-                            </Col>
-                        </Row>
-                    )
-                })}
+                <Tree
+                    id="specifiactions-tree"
+                    draggable
+                    onDrop={onDrop}   
+                    allowDrop={() => true}                           
+                    treeData={productData?.specifications?.map((e, index) => { return {elem: e, index} }) }
+                    titleRender={specificationRender}
+                />
                 <Row className='justify-content-center'>
-                    <Button className="w-fit-content p-2" color="dark"  onClick={() => updateProductData([...productData.specifications, {[`values_${language}`]: []}], "specifications")}>{texts.addSpecification}</Button>
+                    <Button className="w-fit-content p-2" color="dark"  onClick={() => updateProductData([...productData.specifications, {[`values_${language}`]: [], id: uuidv4()}], "specifications")}>{texts.addSpecification}</Button>
                 </Row>
                 <Row className='justify-content-center mt-2'>
                     <Button className="w-fit-content p-2" color="dark"  onClick={addProduct}>{texts.add}</Button>

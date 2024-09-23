@@ -16,17 +16,17 @@ const AddProductToCartModal = () => {
   
     const addProduct = (e) => {
         e.preventDefault()
-        const payload = {productId: currentProduct.id, cartItemValues: Object.keys(specificationValues).map(key => { return { specificationId: key, value: specificationValues[key] }})}
+        if (user.cart) {
+        const payload = {cartId: user.cart.id, productId: currentProduct.id, cartItemValues: Object.keys(specificationValues).map(key => { return { specificationId: parseInt(key), value: specificationValues[key] }})}
         setLoader(true)
         console.log(payload)
-        if (user.cart) {
-            backendAxiosClient.post(`api/cart/${user.cart.id}`, payload).then(res => {
+            backendAxiosClient.post(`api/cart`, payload).then(res => {
                 if (res.data) {
                     setCart([...cart, {...res.data}])
                 }
             }).finally(() => setLoader(false))
+            setIsOpen(false)
         }
-        setIsOpen(false)
     }
     
 
