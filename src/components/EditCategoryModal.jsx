@@ -1,14 +1,15 @@
 import React, { useState } from "react"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
-import { categoriesAtom, editCategoryModalAtom, currentCategoryAtom, loaderAtom, textsAtom } from "../states/jotai"
+import { categoriesAtom, editCategoryModalAtom, currentCategoryAtom, loaderAtom, textsAtom, flattenedCategoriesAtom } from "../states/jotai"
 import { Button, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader, Row } from 'reactstrap'
 import { backendAxiosClient } from "../utility/apiClients";
 import Select from 'react-select'
 
 const EditCategoryModal = () => {
     const [isOpen, setIsOpen] = useAtom(editCategoryModalAtom)
-    const [categories, setCategories] = useAtom(categoriesAtom)
+    const setCategories = useSetAtom(categoriesAtom)
     const currentCategory = useAtomValue(currentCategoryAtom)
+    const flattenedCategories = useAtomValue(flattenedCategoriesAtom)
     const texts = useAtomValue(textsAtom)
     const setLoader = useSetAtom(loaderAtom)
     const [categoryData, setCategoryData] = useState({...currentCategory})
@@ -62,8 +63,8 @@ const EditCategoryModal = () => {
                         className=""
                         classNamePrefix='select'
                         placeholder={texts.chooseCategory}
-                        options={categories.map(elem => { return {value: elem.id, label: elem[`name_${language}`]} })}
-                        value={categories.map(elem => { return {value: elem.id, label: elem[`name_${language}`]} }).find(elem => elem.value === categoryData.parentCategoryId)}
+                        options={flattenedCategories.map(elem => { return {value: elem.id, label: elem[`name_${language}`]} })}
+                        value={flattenedCategories.map(elem => { return {value: elem.id, label: elem[`name_${language}`]} }).find(elem => elem.value === categoryData.parentCategoryId)}
                         onChange={e => updateCategoryData(e.value, `parentCategoryId`)}
                         isClearable={false}
                     />

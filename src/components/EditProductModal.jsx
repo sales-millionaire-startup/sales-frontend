@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
-import { categoriesAtom, currentProductAtom, editProductModalAtom, loaderAtom, textsAtom, unitsAtom } from "../states/jotai"
+import { categoriesAtom, currentProductAtom, editProductModalAtom, flattenedCategoriesAtom, loaderAtom, textsAtom, unitsAtom } from "../states/jotai"
 import { Button, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, FormGroup, Input, Modal, ModalBody, ModalHeader, Row } from 'reactstrap'
 import { backendFileClient } from "../utility/apiClients";
 import { MdDeleteOutline } from "react-icons/md";
@@ -9,7 +9,8 @@ import Select from 'react-select'
 
 const EditProductModal = () => {
     const [isOpen, setIsOpen] = useAtom(editProductModalAtom)
-    const [categories, setCategories] = useAtom(categoriesAtom)
+    const setCategories = useSetAtom(categoriesAtom)
+    const flattenedCategories = useAtomValue(flattenedCategoriesAtom)
     const currentProduct = useAtomValue(currentProductAtom)
     const units = useAtomValue(unitsAtom)
     const texts = useAtomValue(textsAtom)
@@ -148,8 +149,8 @@ const EditProductModal = () => {
                             className=""
                             classNamePrefix='select'
                             placeholder={texts.chooseCategory}
-                            options={categories.map(elem => { return {value: elem.id, label: elem[`name_${language}`]} })}
-                            value={categories.map(elem => { return {value: elem.id, label: elem[`name_${language}`]} }).find(elem => elem.value === productData.categoryId)}
+                            options={flattenedCategories.map(elem => { return {value: elem.id, label: elem[`name_${language}`]} })}
+                            value={flattenedCategories.map(elem => { return {value: elem.id, label: elem[`name_${language}`]} }).find(elem => elem.value === productData.categoryId)}
                             onChange={e => updateProductData(e.value, `categoryId`)}
                             isClearable={false}
                         />

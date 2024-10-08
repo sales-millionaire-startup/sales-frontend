@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
-import { textsAtom, categoriesAtom, addCategoryModalAtom, currentCategoryAtom, unitsAtom } from "../../states/jotai"
+import { textsAtom, categoriesAtom, addCategoryModalAtom, currentCategoryAtom, unitsAtom, flattenedCategoriesAtom } from "../../states/jotai"
 import CategoryAdmin from "../../components/CategoryAdmin"
 import AddCategoryModal from "../../components/AddCategoryModal"
 import { Col } from "reactstrap"
@@ -13,11 +13,17 @@ import EditProductModal from "../../components/EditProductModal"
 
 const AdminProducts = () => {
     const [categories, setCategories] = useAtom(categoriesAtom)
+    const setFlattenedCategories = useSetAtom(flattenedCategoriesAtom)
     const setUnits = useSetAtom(unitsAtom)
     useEffect(() => {
         backendAxiosClient.get("api/category").then(res => {
             if (res.data) {
                 setCategories(res.data)
+            }
+        })
+        backendAxiosClient.get("api/category/flattend").then(res => {
+            if (res.data) {
+                setFlattenedCategories(res.data)
             }
         })
         backendAxiosClient.get("api/unit-element").then(res => {

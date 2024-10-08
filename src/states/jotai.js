@@ -16,6 +16,8 @@ export const userAtom = atom({})
 
 export const categoriesAtom = atom([])
 
+export const flattenedCategoriesAtom = atom([])
+
 export const openedCategoriesAtom = atom([])
 
 export const currentCategoryAtom = atom({})
