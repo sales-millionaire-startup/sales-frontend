@@ -5,10 +5,11 @@ import { Button, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form
 import { backendFileClient } from "../utility/apiClients";
 import { MdDeleteOutline } from "react-icons/md";
 import Tree from "rc-tree";
+import Select from 'react-select'
 
 const EditProductModal = () => {
     const [isOpen, setIsOpen] = useAtom(editProductModalAtom)
-    const setCategories = useSetAtom(categoriesAtom)
+    const [categories, setCategories] = useAtom(categoriesAtom)
     const currentProduct = useAtomValue(currentProductAtom)
     const units = useAtomValue(unitsAtom)
     const texts = useAtomValue(textsAtom)
@@ -125,7 +126,7 @@ const EditProductModal = () => {
             <Col>
             <Form onSubmit={addProduct}>
                 <Row>
-                    <FormGroup className="col-6">
+                    <FormGroup className="col-4">
                         <Input
                             id={`name_${language}`}
                             name={`name_${language}`}
@@ -133,12 +134,24 @@ const EditProductModal = () => {
                             onChange={e => updateProductData(e.target.value, `name_${language}`)}
                         />
                     </FormGroup>
-                    <FormGroup className="col-6">
+                    <FormGroup className="col-4">
                         <Input
                             id="exampleFile"
                             name="file"
                             type="file"
                             onChange={e => updateProductData(e.target.files[0], "file")}
+                        />
+                    </FormGroup>
+                    <FormGroup className="col-4">
+                        <Select
+                            theme={'light'}
+                            className=""
+                            classNamePrefix='select'
+                            placeholder={texts.chooseCategory}
+                            options={categories.map(elem => { return {value: elem.id, label: elem[`name_${language}`]} })}
+                            value={categories.map(elem => { return {value: elem.id, label: elem[`name_${language}`]} }).find(elem => elem.value === productData.categoryId)}
+                            onChange={e => updateProductData(e.value, `categoryId`)}
+                            isClearable={false}
                         />
                     </FormGroup>
                 </Row>

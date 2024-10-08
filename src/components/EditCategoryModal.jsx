@@ -3,10 +3,11 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai"
 import { categoriesAtom, editCategoryModalAtom, currentCategoryAtom, loaderAtom, textsAtom } from "../states/jotai"
 import { Button, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader, Row } from 'reactstrap'
 import { backendAxiosClient } from "../utility/apiClients";
+import Select from 'react-select'
 
 const EditCategoryModal = () => {
     const [isOpen, setIsOpen] = useAtom(editCategoryModalAtom)
-    const setCategories = useSetAtom(categoriesAtom)
+    const [categories, setCategories] = useAtom(categoriesAtom)
     const currentCategory = useAtomValue(currentCategoryAtom)
     const texts = useAtomValue(textsAtom)
     const setLoader = useSetAtom(loaderAtom)
@@ -53,6 +54,18 @@ const EditCategoryModal = () => {
                     placeholder={texts.category}
                     defaultValue={currentCategory[`name_${language}`] || currentCategory.name_ge}
                     onChange={e => updateCategoryData(e.target.value, `name_${language}`)}
+                    />
+                </FormGroup>
+                <FormGroup className="">
+                    <Select
+                        theme={'light'}
+                        className=""
+                        classNamePrefix='select'
+                        placeholder={texts.chooseCategory}
+                        options={categories.map(elem => { return {value: elem.id, label: elem[`name_${language}`]} })}
+                        value={categories.map(elem => { return {value: elem.id, label: elem[`name_${language}`]} }).find(elem => elem.value === categoryData.parentCategoryId)}
+                        onChange={e => updateCategoryData(e.value, `parentCategoryId`)}
+                        isClearable={false}
                     />
                 </FormGroup>
                 <Row className='justify-content-center'>
