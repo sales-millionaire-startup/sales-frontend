@@ -36,6 +36,7 @@ const AddProductToCartModal = () => {
         backdrop={true}
         toggle={() => setIsOpen(!isOpen)}
         className='modal-dialog-centered modal-w-75'
+        scrollable={true}
     >
         <ModalHeader toggle={() => setIsOpen(!isOpen)}/>  
         <ModalBody className="d-flex justify-content-center">

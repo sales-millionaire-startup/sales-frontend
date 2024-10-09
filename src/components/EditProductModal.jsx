@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
 import { categoriesAtom, currentProductAtom, editProductModalAtom, flattenedCategoriesAtom, loaderAtom, textsAtom, unitsAtom } from "../states/jotai"
-import { Button, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, FormGroup, Input, Modal, ModalBody, ModalHeader, Row } from 'reactstrap'
+import { Button, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader, Row } from 'reactstrap'
 import { backendFileClient } from "../utility/apiClients";
 import { MdDeleteOutline } from "react-icons/md";
 import Tree from "rc-tree";
@@ -108,6 +108,19 @@ const EditProductModal = () => {
                         </DropdownMenu>
                     </Dropdown>
                 </div>
+                <FormGroup className="col-2 d-flex justify-content-center align-items-center">
+                    <Label className="m-2">
+                        {texts.isSplitable}
+                    </Label>
+                    <Input
+                        className="m-2"
+                        id="isSplitable"
+                        name="isSplitable"
+                        type="checkbox"
+                        checked={productData.specifications[index].isSplitable}
+                        onChange={e => updateProductSpecification(!productData.specifications[index].isSplitable, "isSplitable", index)}
+                    />
+                </FormGroup>
                 <Col>
                     <MdDeleteOutline size={30} className="cursor-pointer mt-1" onClick={() => removeProductSpecification(index)}/>
                 </Col>
@@ -121,6 +134,7 @@ const EditProductModal = () => {
         backdrop={true}
         toggle={() => setIsOpen(!isOpen)}
         className='modal-dialog-centered modal-w-75'
+        scrollable={true}
     >
         <ModalHeader toggle={() => setIsOpen(!isOpen)}/>  
         <ModalBody className="d-flex justify-content-center">

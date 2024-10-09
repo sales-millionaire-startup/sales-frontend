@@ -32,5 +32,6 @@
     "buyer": "შემსყიდველი",
     "role": "როლი",
     "cart": "კალათა",
-    "chooseCategory": "კატეგორიის არჩევა"
+    "chooseCategory": "კატეგორიის არჩევა",
+    "isSplitable": "გაყოფადია?"
 }

@@ -31,5 +31,6 @@
     "seller": "Seller",
     "buyer": "Buyer",
     "role": "Role",
-    "chooseCategory": "Choose category"
+    "chooseCategory": "Choose category",
+    "isSplitable": "Is it splitable?"
 }
