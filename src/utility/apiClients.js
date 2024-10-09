@@ -22,7 +22,8 @@ backendAxiosClient.interceptors.response.use((response) => {
     return response
 }, (error) => {
     if (error.response && error.response.status === 401) {
-        window.open(`/login`, "_self")
+        alert("Unauthorized: Please login again")
+        // window.open(`/login`, "_self")
     }
     if (error.response && (error.response.status > 400 && error.response.status < 500)) {
         // window.open(`${authUrl}/logout`, "_self")
@@ -37,7 +38,8 @@ backendFileClient.interceptors.response.use((response) => {
     return response
 }, (error) => {
     if (error.response && error.response.status === 401) {
-        window.open(`/login`, "_self")
+        alert("Unauthorized: Please login again")
+        // window.open(`/login`, "_self")
     }
     if (error.response && (error.response.status > 400 && error.response.status < 500)) {
         // window.open(`${authUrl}/logout`, "_self")

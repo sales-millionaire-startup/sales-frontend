@@ -16,22 +16,24 @@ const AdminProducts = () => {
     const setFlattenedCategories = useSetAtom(flattenedCategoriesAtom)
     const setUnits = useSetAtom(unitsAtom)
     useEffect(() => {
-        backendAxiosClient.get("api/category").then(res => {
-            if (res.data) {
-                setCategories(res.data)
-            }
+        setTimeout(() => {   
+            backendAxiosClient.get("api/category").then(res => {
+                if (res.data) {
+                    setCategories(res.data)
+                }
+            })
+            backendAxiosClient.get("api/category/flattend").then(res => {
+                if (res.data) {
+                    setFlattenedCategories(res.data)
+                }
+            })
+            backendAxiosClient.get("api/unit-element").then(res => {
+                if (res.data) {
+                    setUnits(res.data)
+                }
+            })
         })
-        backendAxiosClient.get("api/category/flattend").then(res => {
-            if (res.data) {
-                setFlattenedCategories(res.data)
-            }
-        })
-        backendAxiosClient.get("api/unit-element").then(res => {
-            if (res.data) {
-                setUnits(res.data)
-            }
-        })
-    }, [setCategories, setUnits])
+    }, [setCategories, setUnits, setFlattenedCategories])
     const texts = useAtomValue(textsAtom);
     const setIsAddCategoryModalOpen = useSetAtom(addCategoryModalAtom)
     const setCurrentCategory = useSetAtom(currentCategoryAtom)
