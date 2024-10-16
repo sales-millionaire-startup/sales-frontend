@@ -1,12 +1,13 @@
 import React, { useState } from "react"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
-import { addCategoryModalAtom, categoriesAtom, currentCategoryAtom, loaderAtom, textsAtom } from "../states/jotai"
+import { addCategoryModalAtom, categoriesAtom, currentCategoryAtom, flattenedCategoriesAtom, loaderAtom, textsAtom } from "../states/jotai"
 import { Button, Col, Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader, Row } from 'reactstrap'
 import { backendAxiosClient } from "../utility/apiClients";
 
 const AddCategoryModal = () => {
     const [isOpen, setIsOpen] = useAtom(addCategoryModalAtom)
     const setCategories = useSetAtom(categoriesAtom)
+    const setFlattenedCategories = useSetAtom(flattenedCategoriesAtom)
     const currentCategory = useAtomValue(currentCategoryAtom)
     const texts = useAtomValue(textsAtom)
     const setLoader = useSetAtom(loaderAtom)
@@ -29,6 +30,7 @@ const AddCategoryModal = () => {
                         return [...tmp, {...res.data}]
                     }
                 })
+                setFlattenedCategories(state => [...state, {...res.data}])
             }
         }).finally(() => setLoader(false))
         setIsOpen(false)
